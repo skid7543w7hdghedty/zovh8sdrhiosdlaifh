@@ -151,7 +151,7 @@ if makefolder and isfolder and writefile and isfile then
 	end)
 end
 
-currentVersion = "1.0.0"
+currentVersion = "1.14.8.26"
 
 ScaledHolder = Instance.new("Frame")
 Scale = Instance.new("UIScale")
@@ -4894,8 +4894,10 @@ CMDs[#CMDs + 1] = {NAME = 'copytools [player] (CLIENT)', DESC = 'Copies a player
 CMDs[#CMDs + 1] = {NAME = 'dupetools / clonetools [num]', DESC = 'Duplicates your inventory tools a set amount of times'}
 CMDs[#CMDs + 1] = {NAME = 'droptools', DESC = 'Drops your tools'}
 CMDs[#CMDs + 1] = {NAME = 'droppabletools', DESC = 'Makes your tools droppable'}
-CMDs[#CMDs + 1] = {NAME = 'equiptools', DESC = 'Equips every tool in your inventory at once'}
+CMDs[#CMDs + 1] = {NAME = 'equiptools / equip / eq', DESC = 'Equips every tool in your inventory at once'}
 CMDs[#CMDs + 1] = {NAME = 'unequiptools', DESC = 'Unequips every tool you are currently holding at once'}
+CMDs[#CMDs + 1] = {NAME = 'decompile', DESC = 'Saves the place to a file using SynSaveInstance'}
+CMDs[#CMDs + 1] = {NAME = 'httpspy', DESC = 'Logs all outgoing and incoming HTTP requests'}
 CMDs[#CMDs + 1] = {NAME = 'removespecifictool [name]', DESC = 'Automatically remove a specific tool from your inventory'}
 CMDs[#CMDs + 1] = {NAME = 'unremovespecifictool [name]', DESC = 'Stops removing a specific tool from your inventory'}
 CMDs[#CMDs + 1] = {NAME = 'clearremovespecifictool', DESC = 'Stop removing all specific tools from your inventory'}
@@ -11477,7 +11479,7 @@ addcmd('clearcharappearance',{'clearchar','clrchar'},function(args, speaker)
 	speaker:ClearCharacterAppearance()
 end)
 
-addcmd('equiptools',{},function(args, speaker)
+addcmd('equiptools',{'equip','eq'},function(args, speaker)
 	for i,v in pairs(speaker:FindFirstChildOfClass("Backpack"):GetChildren()) do
 		if v:IsA("Tool") or v:IsA("HopperBin") then
 			v.Parent = speaker.Character
@@ -11487,6 +11489,20 @@ end)
 
 addcmd('unequiptools',{},function(args, speaker)
 	speaker.Character:FindFirstChildOfClass('Humanoid'):UnequipTools()
+end)
+
+addcmd('decompile',{},function(args, speaker)
+	local Params = {
+		RepoURL = "https://raw.githubusercontent.com/luau/SynSaveInstance/main/",
+		SSI = "saveinstance",
+	}
+	local synsaveinstance = loadstring(game:HttpGet(Params.RepoURL .. Params.SSI .. ".luau", true), Params.SSI)()
+	local Options = {} -- All Options can be found here https://github.com/luau/UniversalSynSaveInstance/blob/main/saveinstance.lua#L772
+	synsaveinstance(Options)
+end)
+
+addcmd('httpspy',{},function(args, speaker)
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/VexalScripts/scripts/refs/heads/main/backup/HttpSpy.lua", true))()
 end)
 
 local function GetHandleTools(p)
