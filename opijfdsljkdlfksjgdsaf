@@ -151,7 +151,7 @@ if makefolder and isfolder and writefile and isfile then
 	end)
 end
 
-currentVersion = "1.14.8.26"
+currentVersion = "1.1.1.27"
 
 ScaledHolder = Instance.new("Frame")
 Scale = Instance.new("UIScale")
